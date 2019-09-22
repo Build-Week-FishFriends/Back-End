@@ -24,4 +24,24 @@ router.post('/register', (req, res) => {
         })
 })
 
+router.post('/login', (req, res) => {
+    let user = req.body;
+
+    userDb.findUserByUsername({username: user.username})
+        .first()
+        .then(userInfo => {
+            if(user && bcrypt.compareSync(user.password, userInfo.password)) {
+                const token = userDb.generateToken(userInfo);
+                res.status(200).json({
+                    message: `${userInfo.username}, welcome back!`,
+                    token
+                })
+            } else {
+                res.status(401).json({message: 'invalid username or password'})
+            }
+        })
+        .catch(error => {
+            res.status(500).json({message: 'hello again!'})
+        })
+})
 module.exports = router;
