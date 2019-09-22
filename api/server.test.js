@@ -19,18 +19,18 @@ describe('server.js tests', () => {
     })
 
     describe('/auth/login', () => {
-        it('should return a status 200 when given a pre-existing username and password', function(done) {
+        it('should return a status 200 when given a pre-existing username and password', function() {
             return request(server)
                 .post('/auth/login')
                 .send({username: 'mason', password: 'mason'})
                 .set("Accept", "application/json")
                 .expect("Content-Type", "application/json; charset=utf-8")
                 .expect(200)
-                .end(function(err, res) {
-                    if (err) {
-                        return done(err)
-                    }
-                    done();
+                .then(res => {
+                    request(server)
+                        .post('/auth/login')
+                        .send({username: 'mason', password: 'mason'})
+                        .expect(200)
                 })
         })
     })
