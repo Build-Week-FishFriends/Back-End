@@ -26,10 +26,12 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     let user = req.body;
+    console.log('req from login', user)
 
     userDb.findUserByUsername({username: user.username})
         .first()
         .then(userInfo => {
+            console.log('userInfo from the then block', userInfo)
             if(user && bcrypt.compareSync(user.password, userInfo.password)) {
                 const token = userDb.generateToken(userInfo);
                 res.status(200).json({
