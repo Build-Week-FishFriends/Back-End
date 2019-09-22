@@ -1,7 +1,7 @@
 
 exports.seed = function(knex) {
       // Inserts seed entries
-      return knex('table_name').insert([
+      return knex('water-bodies').insert([
         {
           "facilityName": "Cow Lake",
           "latitude": 47.135255996919575,
