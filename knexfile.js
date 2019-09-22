@@ -26,7 +26,7 @@ module.exports = {
     connection: {
       filename: './data/test-database.db3'
     },
-    userNullAsDefault: true,
+    useNullAsDefault: true,
     migrations: {
       directory: './data/migrations'
     },
