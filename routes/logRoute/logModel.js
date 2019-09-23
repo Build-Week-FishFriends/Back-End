@@ -9,16 +9,12 @@ function addLog(log) {
         })
 } 
 
-function getAllWaterBodies() {
-    return db('water-bodies');
-}
-
 function getAllLogsByWaterBodyId(waterBodyId) {
     return db('logs').where(waterBodyId)
 }
 
 function getLogsByUserId(userId) {
-    return db('logs').where(userId);
+    return db('logs').where({userId});
 }
 
 function getLogsByFishId(fishId) {
@@ -39,7 +35,7 @@ function getLogByWaterBodyId(id) {
 
 module.exports = {
     addLog,
-    getAllWaterBodies,
     updateLog,
-    deleteLog
+    deleteLog,
+    getLogsByUserId
 }
