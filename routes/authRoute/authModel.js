@@ -16,6 +16,10 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options)
 }
 
+function findUserById(id) {
+    return db('users').where({id});
+}
+
 function findUserByUsername(filter) {
     return db('users').where(filter)
 }
@@ -37,5 +41,6 @@ module.exports = {
     findUserByUsername,
     addUser, 
     generateToken,
-    findUserById
+    findUserById, 
+    generateToken
 }
