@@ -13,6 +13,14 @@ function getAllWaterBodies() {
     return db('water-bodies')
 }
 
+function updateLog(id, log) {
+    return db('logs').where({id})
+}
+
+function getLogByWaterBodyId(id) {
+    return db('logs').where({waterBodyId: id})
+}
+
 module.exports = {
     addLog,
     getAllWaterBodies,
