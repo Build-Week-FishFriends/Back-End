@@ -4,7 +4,7 @@ const helmet = require('helmet');
 
 const logRoute = require('../routes/logRoute/logRoute.js')
 const authRoute = require('../routes/authRoute/authRoute.js');
-const waterBodiesRoute = require('../routes/waterBodyRoute/waterBodyRoute.js')
+const waterBodyRoute = require('../routes/waterBodyRoute/waterBodyRoute.js')
 
 const server = express();
 
@@ -13,7 +13,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use('/auth', authRoute)
-server.use('/waterBodies', waterBodiesRoute)
+server.use('/waterBodies', waterBodyRoute)
 server.use('/logRoute', logRoute);
 
 server.use('/', (req, res) => {
