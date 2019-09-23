@@ -26,4 +26,25 @@ router.get('/user-logs', authMiddleware, (req, res) => {
         })
 });
 
+router.get('/user-logs/:id', (req, res) => {
+
+    logDb.getLogsByUserId(req.params.id)
+        .then(results => {
+            res.status(200).json(results)
+        })
+        .catch(err => {
+            res.status(500).json({error: err})
+        })
+})
+
+router.get('/all-logs', (req, res) => {
+    logDb.getAllLogs()
+        .then(results => {
+            res.status(200).json(results)
+        })
+        .catch(err => {
+            res.status(500).json({error: err})
+        })
+})
+
 module.exports = router;
