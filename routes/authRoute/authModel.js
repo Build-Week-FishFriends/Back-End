@@ -20,8 +20,8 @@ function findUserByUsername(filter) {
     return db('users').where(filter)
 }
 
-function findUserById(filter) {
-    return db('users').where(filter).select('firstName', 'lastName', 'username');
+function findUserById(id) {
+    return db('users').where({id});
 }
 
 function addUser(user) {

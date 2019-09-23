@@ -17,7 +17,23 @@ router.post('/register', (req, res) => {
 
     userDb.addUser(user) 
         .then(saved => {
-            res.status(201).json(saved)
+            // res.status(201).json(saved)
+            console.log(saved)
+            userDb.findUserById(saved) 
+                .then(results => {
+                    const token = userDb.generateToken(results[0])
+                    res.status(201).json({
+                        userObject: {
+                            firstName: results[0].firstName,
+                            lastName: results[0].lastName,
+                            username: results[0].username
+                        },
+                        token
+                    })
+                })
+                .catch(error => {
+                    res.status(500).json(error)
+                })
         })
         .catch(err => {
             res.status(500).json({error: err})
