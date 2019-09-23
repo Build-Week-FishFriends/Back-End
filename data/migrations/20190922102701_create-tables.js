@@ -8,6 +8,9 @@ exports.up = function(knex) {
             .notNullable()
             .unique();
         tbl.string('password', 300).notNullable();
+        tbl.string('firstName', 255).notNullable();
+        tbl.string('lastName', 255).notNullable();
+        tbl.string('email', 255)
     })
     .createTable('water-bodies', tbl => {
         tbl.increments();
@@ -18,7 +21,7 @@ exports.up = function(knex) {
     })
     .createTable('fish-types', tbl => {
         tbl.increments();
-        tbl.string('fishName', 255)
+        tbl.string('fishName', 255).unique()
     })
     .createTable('logs', tbl => {
         tbl.increments();
