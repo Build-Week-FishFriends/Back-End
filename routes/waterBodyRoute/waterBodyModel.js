@@ -11,7 +11,8 @@ function getAllWaterBodies() {
 }
 
 function getWaterBodyById(waterBodyId) {
-    return db('water-bodies').where('id', waterBodyId)
+    return db('water-bodies')
+        .where('id', waterBodyId)
 }
 
 function getWaterBodyByFacilityName(facilityName) {
