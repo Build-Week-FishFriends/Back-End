@@ -12,6 +12,7 @@ server.use(express.json());
 // server.use(cors());
 
 server.use('/auth', authRoute)
+server.use('/waterBodies', waterBodiesRoute)
 
 server.use('/waterBodies', waterBodiesRoute);
 
