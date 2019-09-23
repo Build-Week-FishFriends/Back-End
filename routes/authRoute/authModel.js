@@ -24,6 +24,10 @@ function findUserByUsername(filter) {
     return db('users').where(filter)
 }
 
+function findUserById(id) {
+    return db('users').where({id});
+}
+
 function addUser(user) {
     return db('users')
         .insert(user, 'id')

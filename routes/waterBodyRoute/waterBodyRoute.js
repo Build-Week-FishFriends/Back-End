@@ -1,7 +1,7 @@
-const router = require("express").Router();
-const waterBodies = require("./waterBodyModel.js");
+const router = require('express').Router();
+const waterBodies = require('./waterBodyModel.js');
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
     waterBodies.getAllWaterBodies()
         .then(bodies => {
             res.status(200).json(bodies)
@@ -11,27 +11,24 @@ router.get("/", (req, res) => {
         })
 })
 
- router.get("/:id", (req, res) => {
-    const waterBodyId = req.params.id;
+router.get('/:id', (req, res) => {
+    const waterBodyId = req.params.id
     waterBodies.getWaterBodyById(waterBodyId)
-        .then(body => {
-            if(body.length > 0) {
-                console.log("body in .then", body[0])
-                res.status(200).json(body[0])
+        .then(bodies => {
+            if(bodies.length > 0) {
+                res.status(200).json(bodies[0])
             } else {
-                res.status(404).json( {
-                    message: `Could not find a facility with that ID.`
+                res.status(404).json({
+                    message: `Could not find a facility with that id: ${waterBodyId}`
                 })
-            }
+            }   
         })
         .catch(err => {
-            res.status(500).json( {
-                message: `Server error: ${err}`
-            })
+            res.status(500).json({error: err})
         })
- })
+})
 
- router.get('/byName/:facilityName', (req, res) => {
+router.get('/byName/:facilityName', (req, res) => {
     const facilityName = req.params.facilityName;
     console.log(req.params.facilityName)
     waterBodies.getWaterBodyByFacilityName(facilityName) 
@@ -50,5 +47,3 @@ router.get("/", (req, res) => {
 })
 
 module.exports = router;
-
-
