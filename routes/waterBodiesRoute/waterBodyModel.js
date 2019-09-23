@@ -7,7 +7,7 @@ module.exports = {
 }
 
 function getAllWaterBodies() {
-    return db("water-bodies")
+    return db("water-bodies").where("id", "<", 6)
 }
 
 function getWaterBodyById(waterBodyId) {
