@@ -20,6 +20,10 @@ function findUserByUsername(filter) {
     return db('users').where(filter)
 }
 
+function findUserById(filter) {
+    return db('users').where(filter).select('firstName', 'lastName', 'username');
+}
+
 function addUser(user) {
     return db('users')
         .insert(user, 'id')
@@ -32,5 +36,6 @@ function addUser(user) {
 module.exports = {
     findUserByUsername,
     addUser, 
-    generateToken
+    generateToken,
+    findUserById
 }

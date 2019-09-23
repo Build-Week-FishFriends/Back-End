@@ -36,7 +36,12 @@ router.post('/login', (req, res) => {
                 const token = userDb.generateToken(userInfo);
                 res.status(200).json({
                     message: `${userInfo.username}, welcome back!`,
-                    token
+                    token,
+                    userObject: {
+                        username: userInfo.username,
+                        lastName: userInfo.lastName,
+                        firstName: userInfo.firstName
+                    }
                 })
             } else {
                 res.status(401).json({message: 'invalid username or password'})
