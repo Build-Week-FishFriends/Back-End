@@ -16,8 +16,8 @@ router.get("/", (req, res) => {
     waterBodies.getWaterBodyById(waterBodyId)
         .then(body => {
             if(body.length > 0) {
-                console.log("body in .then", body)
-                res.status(200).json(body)
+                console.log("body in .then", body[0])
+                res.status(200).json(body[0])
             } else {
                 res.status(404).json( {
                     message: `Could not find a facility with that ID.`
@@ -37,7 +37,7 @@ router.get("/", (req, res) => {
     waterBodies.getWaterBodyByFacilityName(facilityName) 
     .then(bodies => {
         if(bodies.length > 0) {
-            res.status(200).json(bodies)
+            res.status(200).json(bodies[0])
         } else {
             res.status(404).json({
                 message: `Could not find a facility with that name: ${facilityName}`
