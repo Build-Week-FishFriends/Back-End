@@ -46,7 +46,7 @@ function getLogById(id) {
 }
 
 function getLogsByWaterBodyId(id) {
-    return db('logs')
+    return db('logs as l')
         .join('fish-types as f', 'l.fishId', 'f.id')
         .join('water-bodies as w', 'l.waterBodyId', 'w.id')
         .join('users as u', 'l.userId', 'u.id')
