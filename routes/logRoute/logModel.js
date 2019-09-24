@@ -52,7 +52,7 @@ function getLogsByWaterBodyId(id) {
         .join('water-bodies as w', 'l.waterBodyId', 'w.id')
         .join('users as u', 'l.userId', 'u.id')
         .select('u.username','l.userId', 'l.id as log_id', 'l.waterBodyId', 'f.fishName', 'l.fishCount', 'l.baitType', 'l.timeSpent', 'l.timeOfDay', 'w.facilityName', 'w.latitude', 'w.longitude')
-        .where({waterBodyId: id});
+        .where("l.waterBodyId", id);
 }
 
 function getFishIdByName(fishName) {

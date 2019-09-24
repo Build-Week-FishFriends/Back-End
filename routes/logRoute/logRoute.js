@@ -80,6 +80,21 @@ router.put("/user-logs/update/:id", authMiddleware, logMiddleware.validatePost, 
         })
 })
 
+router.get("/user-logs/waterBody/:id", (req, res) => {
+    logDb.getLogsByWaterBodyId(req.params.id)
+        .then(result => {
+            console.log("result in .then: ", result)
+            if(result.length > 0) {
+                res.status(200).json(result)
+            } else {
+                res.status(404).json({message: `Could not find any logs for that water body`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: `There was an error retrieving logs: ${err}`})
+        })
+})
+
 router.get('/all-logs', (req, res) => {
     logDb.getAllLogs()
         .then(results => {
