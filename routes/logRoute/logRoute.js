@@ -1,8 +1,9 @@
 router = require('express').Router();
 logDb = require('./logModel.js');
 authMiddleware = require('../authRoute/authenticate-middleware.js');
+logMiddleware = require('./logMiddleware.js')
 
-router.post('/', authMiddleware, (req, res) => {
+router.post('/', logMiddleware.validatePost, authMiddleware, logMiddleware.attachFishId, (req, res) => {
     let log = req.body;
     log.userId = req.user.id;
     console.log(log)

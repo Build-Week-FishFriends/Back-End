@@ -9,10 +9,6 @@ function addLog(log) {
         })
 } 
 
-function getAllLogsByWaterBodyId(waterBodyId) {
-    return db('logs').where(waterBodyId)
-}
-
 function getAllLogs() {
     return db('logs as l')
         .join('fish-types as f', 'l.fishId', 'f.id')
@@ -31,19 +27,33 @@ function getLogsByUserId(userId) {
 }
 
 function getLogsByFishId(fishId) {
-    return db('logs').where(fishId);
+    return db('logs').where({fishId});
 }
 
-function updateLog(id, log) {
-    return db('logs').where({id}).update(log);
+function updateLog(id, updatedLog) {
+    return db('logs').where({id}).update(updatedLog);
 }
 
 function deleteLog(id) {
     return db('logs').where({id}).del();
 }
 
-function getLogByWaterBodyId(id) {
-    return db('logs').where({waterBodyId: id});
+function getLogsByWaterBodyId(id) {
+    return db('logs')
+        .join('fish-types as f', 'l.fishId', 'f.id')
+        .join('water-bodies as w', 'l.waterBodyId', 'w.id')
+        .join('users as u', 'l.userId', 'u.id')
+        .select('u.username','l.userId', 'l.id as log_id', 'l.waterBodyId', 'f.fishName', 'l.fishCount', 'l.baitType', 'l.timeSpent', 'l.timeOfDay', 'w.facilityName', 'w.latitude', 'w.longitude')
+        .where({waterBodyId: id});
+}
+
+function getFishIdByName(fishName) {
+    return db('fish-types')
+        .where({fishName})
+}
+
+function addFish(fishName) {
+    return db('fish-types').insert({fishName})
 }
 
 module.exports = {
@@ -51,5 +61,8 @@ module.exports = {
     updateLog,
     deleteLog,
     getLogsByUserId,
-    getAllLogs
+    getAllLogs,
+    getLogsByWaterBodyId,
+    getFishIdByName,
+    addFish
 }
