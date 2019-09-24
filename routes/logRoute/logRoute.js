@@ -41,11 +41,6 @@ router.get('/user-logs/:id', (req, res) => {
         })
 });
 
-// router.put("/user-logs/edit/:logID", (req, res) => {
-//     logDb.
-
-// })
-
 router.delete('/user-logs/delete-logs/:id', authMiddleware, logMiddleware.validateUserId, (req, res) => {
     logDb.deleteLog(req.params.id) 
         .then(results => {
