@@ -46,7 +46,7 @@ router.get('/user-logs/:id', (req, res) => {
 
 // })
 
-router.delete('/user-logs/delete-logs/:id', authMiddleware, (req, res) => {
+router.delete('/user-logs/delete-logs/:id', authMiddleware, logMiddleware.validateUserId, (req, res) => {
     logDb.deleteLog(req.params.id) 
         .then(results => {
             if(results) {
