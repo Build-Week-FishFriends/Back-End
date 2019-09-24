@@ -1,4 +1,5 @@
 const logDb = require('./logModel.js');
+const db = require('../../data/dbConfig.js');
 
 function validatePost(req, res, next) {
     const logPost = req.body;
@@ -37,7 +38,31 @@ function attachFishId(req, res, next) {
         })
 }
 
+function validateUserId(req, res, next) {
+    const logId = req.params.id;
+    console.log(logId)
+    logDb.getLogById(logId) 
+        .then(results => {
+            console.log(results.length)
+            if(results.length !== 0) {
+                const tokenUserId = req.user.id;
+                console.log(results)
+                if(tokenUserId === results[0].userId) {
+                    next();
+                } else {
+                    res.status(400).json({message: 'userIds do not match'})
+                }
+            } else {
+                res.status(400).json({message: `Can't find log with id ${req.params.id}`}) 
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: 'something'})
+        })
+}
+
 module.exports = {
+    validateUserId,
     attachFishId,
     validatePost
 }

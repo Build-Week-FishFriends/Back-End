@@ -26,7 +26,8 @@ router.post('/login', (req, res) => {
                     userObject: {
                         username: userInfo.username,
                         lastName: userInfo.lastName,
-                        firstName: userInfo.firstName
+                        firstName: userInfo.firstName,
+                        userId: userInfo.id
                     }
                 })
             } else {
@@ -55,7 +56,8 @@ router.post('/register', authMiddleware.validateRegisterPost, (req, res) => {
                         userObject: {
                             firstName: results[0].firstName,
                             lastName: results[0].lastName,
-                            username: results[0].username
+                            username: results[0].username,
+                            userId: results[0].id
                         },
                         token
                     })
