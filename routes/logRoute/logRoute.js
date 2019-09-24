@@ -1,8 +1,9 @@
 router = require('express').Router();
 logDb = require('./logModel.js');
 authMiddleware = require('../authRoute/authenticate-middleware.js');
+logMiddleware = require('./logMiddleware.js')
 
-router.post('/', authMiddleware, (req, res) => {
+router.post('/', logMiddleware.validatePost, authMiddleware, logMiddleware.attachFishId, (req, res) => {
     let log = req.body;
     log.userId = req.user.id;
     console.log(log)
@@ -27,10 +28,41 @@ router.get('/user-logs', authMiddleware, (req, res) => {
 });
 
 router.get('/user-logs/:id', (req, res) => {
-
     logDb.getLogsByUserId(req.params.id)
         .then(results => {
-            res.status(200).json(results)
+            if(results.length > 0) {
+                res.status(200).json(results)
+            } else {
+                res.status(404).json({message: 'user id does not exist'})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: err})
+        })
+});
+
+router.delete('/user-logs/delete-logs/:id', authMiddleware, (req, res) => {
+    logDb.deleteLog(req.params.id) 
+        .then(results => {
+            if(results) {
+                res.status(200).json({message: `log with id ${req.params.id} has been deleted`, results})
+            } else {
+                res.status(404).json({message: `log with id ${req.params.id} can not be found`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: 'unable to delete entry'})
+        })
+})
+
+router.get('/user-logs/update-logs/:id', (req, res) => {
+    logDb.getLogById(req.params.id)
+        .then(results => {
+            if(results.length > 0) {
+                res.status(200).json(results)
+            } else {
+                res.status(404).json({message: 'log id does not exist'})
+            }
         })
         .catch(err => {
             res.status(500).json({error: err})
