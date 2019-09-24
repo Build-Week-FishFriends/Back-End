@@ -69,6 +69,17 @@ router.get('/user-logs/update-logs/:id', (req, res) => {
         })
 })
 
+router.put("/user-logs/update/:id", authMiddleware, logMiddleware.validatePost, logMiddleware.validateUserId, logMiddleware.attachFishId, (req, res) => {
+
+    logDb.updateLog(req.params.id, req.body)
+        .then(result => {
+            res.status(200).json(result)
+        })
+        .catch(err => {
+            res.status(500).json({message: `There was an error updating this post: ${err}`})
+        })
+})
+
 router.get('/all-logs', (req, res) => {
     logDb.getAllLogs()
         .then(results => {
