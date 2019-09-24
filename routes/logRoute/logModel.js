@@ -38,6 +38,13 @@ function deleteLog(id) {
     return db('logs').where({id}).del();
 }
 
+function getLogById(id) {
+    return db('logs as l') 
+        .join('fish-types as f', 'l.fishId', 'f.id')
+        .select('l.userId', 'l.timeSpent', 'l.id', 'l.fishCount', 'l.timeOfDay', 'l.waterBodyId', 'l.baitType', 'f.fishName as fishId')
+        .where('l.id', id)
+}
+
 function getLogsByWaterBodyId(id) {
     return db('logs')
         .join('fish-types as f', 'l.fishId', 'f.id')
@@ -57,6 +64,7 @@ function addFish(fishName) {
 }
 
 module.exports = {
+    getLogById,
     addLog,
     updateLog,
     deleteLog,

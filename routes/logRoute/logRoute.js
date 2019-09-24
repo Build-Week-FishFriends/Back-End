@@ -28,10 +28,27 @@ router.get('/user-logs', authMiddleware, (req, res) => {
 });
 
 router.get('/user-logs/:id', (req, res) => {
-
     logDb.getLogsByUserId(req.params.id)
         .then(results => {
-            res.status(200).json(results)
+            if(results.length > 0) {
+                res.status(200).json(results)
+            } else {
+                res.status(404).json({message: 'user id does not exist'})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: err})
+        })
+});
+
+router.get('/user-logs/update-logs/:id', (req, res) => {
+    logDb.getLogById(req.params.id)
+        .then(results => {
+            if(results.length > 0) {
+                res.status(200).json(results)
+            } else {
+                res.status(404).json({message: 'log id does not exist'})
+            }
         })
         .catch(err => {
             res.status(500).json({error: err})
