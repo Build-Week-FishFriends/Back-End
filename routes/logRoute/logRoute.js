@@ -41,6 +41,20 @@ router.get('/user-logs/:id', (req, res) => {
         })
 });
 
+router.delete('/user-logs/delete-logs/:id', authMiddleware, (req, res) => {
+    logDb.deleteLog(req.params.id) 
+        .then(results => {
+            if(results) {
+                res.status(200).json({message: `log with id ${req.params.id} has been deleted`, results})
+            } else {
+                res.status(404).json({message: `log with id ${req.params.id} can not be found`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: 'unable to delete entry'})
+        })
+})
+
 router.get('/user-logs/update-logs/:id', (req, res) => {
     logDb.getLogById(req.params.id)
         .then(results => {
