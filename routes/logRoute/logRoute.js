@@ -69,6 +69,32 @@ router.get('/user-logs/update-logs/:id', (req, res) => {
         })
 })
 
+router.put("/user-logs/update/:id", authMiddleware, logMiddleware.validatePost, logMiddleware.validateUserId, logMiddleware.attachFishId, (req, res) => {
+
+    logDb.updateLog(req.params.id, req.body)
+        .then(result => {
+            res.status(200).json(result)
+        })
+        .catch(err => {
+            res.status(500).json({message: `There was an error updating this post: ${err}`})
+        })
+})
+
+router.get("/user-logs/waterBody/:id", (req, res) => {
+    logDb.getLogsByWaterBodyId(req.params.id)
+        .then(result => {
+            console.log("result in .then: ", result)
+            if(result.length > 0) {
+                res.status(200).json(result)
+            } else {
+                res.status(404).json({message: `Could not find any logs for that water body`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: `There was an error retrieving logs: ${err}`})
+        })
+})
+
 router.get('/all-logs', (req, res) => {
     logDb.getAllLogs()
         .then(results => {
