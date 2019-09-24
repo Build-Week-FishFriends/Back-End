@@ -40,13 +40,13 @@ function attachFishId(req, res, next) {
 
 function validateUserId(req, res, next) {
     const logId = req.params.id;
-    console.log(logId)
+    console.log("logID: ", logId)
     logDb.getLogById(logId) 
         .then(results => {
             console.log(results.length)
             if(results.length !== 0) {
                 const tokenUserId = req.user.id;
-                console.log(results)
+                console.log("token UserID: ", tokenUserId)
                 if(tokenUserId === results[0].userId) {
                     next();
                 } else {
@@ -57,7 +57,7 @@ function validateUserId(req, res, next) {
             }
         })
         .catch(err => {
-            res.status(500).json({message: 'something'})
+            res.status(500).json({message: `There was an error validating userId: ${err}`})
         })
 }
 
