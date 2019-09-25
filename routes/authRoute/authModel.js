@@ -16,9 +16,9 @@ function generateToken(user) {
     return jwt.sign(payload, secret, options)
 }
 
-function findUserById(id) {
-    return db('users').where({id});
-}
+// function findUserById(id) {
+//     return db('users').where({id});
+// }
 
 function findUserByUsername(filter) {
     return db('users').where(filter)
