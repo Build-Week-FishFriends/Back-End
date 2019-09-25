@@ -1,7 +1,11 @@
 {
-  "name": "Back-End",
+  "name": "fishfriends-back-end",
   "version": "1.0.0",
-  "description": "",
+  "description": "API for FishFriends app",
+  "apidoc": {
+    "title": "FishFriends API",
+    "url": "https://fish-friends.herokuapp.com/"
+  },
   "main": "index.js",
   "scripts": {
     "test": "cross-env DB_ENV=testing jest --watch",
