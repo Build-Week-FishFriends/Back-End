@@ -73,5 +73,44 @@ describe('logModel.js helper functions', () => {
             let logs = await logDb.getLogsByWaterBodyId(1);
             expect(logs.length).toBe(2)
         })
+        it('should return an array with specific object configuration', async () => {
+            let logs = await logDb.getLogsByWaterBodyId(2);
+            expect(logs).toEqual([{"baitType": "live worms", "facilityName": "Lyle Lake", "fishCount": 3, "fishName": "yellow perch", "latitude": 46.89539955746871, "log_id": 2, "longitude": -119.20315122196122, "timeOfDay": "3:00 pm", "timeSpent": 1, "userId": 2, "username": "alice", "waterBodyId": 2}])
+        })
+    })
+
+    describe('getFishByName', () => {
+        it('should return the object of the passed fish name', async () => {
+            const fish = await logDb.getFishIdByName('sockeye salmon');
+            expect(fish[0]).toEqual({id: 8, fishName: 'sockeye salmon'})
+
+        })
+    })
+
+    describe('deleteLog function', () => {
+        it('should return 1 if an existing log has been deleted', async () => {
+            const id = await logDb.addLog({baitType: 'live worms', waterBodyId: 1, fishId: 1, fishCount: 3, userId: 2, timeSpent: 1, timeOfDay: '3:00 pm'});
+            expect(id).toBe(4);
+            const result = await logDb.deleteLog(4);
+            expect(result).toBe(1)
+        })
+        it('should return 0 if the specified log no longer exists', async () => {
+            const result = await logDb.deleteLog(4);
+            expect(result).toBe(0)
+        })
+    })
+
+    describe('updateLog function', () => {
+        it('should return 1 if an existing log has been modified', async () => {
+            const id = await logDb.addLog({baitType: 'live worms', waterBodyId: 1, fishId: 1, fishCount: 3, userId: 2, timeSpent: 1, timeOfDay: '3:00 pm'});
+            expect(id).toBe(5)
+            const updateObject = {baitType: 'worms', waterBodyId: 2, fishId: 1, fishCount: 3, userId: 2, timeSpent: 1, timeOfDay: '3:00 pm'}
+            const result = await logDb.updateLog(id, updateObject);
+            expect(result).toBe(1)
+        })
+        it('should modify the specific log in the database', async () => {
+            const log = await logDb.getLogById(5)
+            expect(log).toEqual([{baitType: 'worms', waterBodyId: 2, fishId: 'yellow perch', fishCount: 3, userId: 2, timeSpent: 1, timeOfDay: '3:00 pm', id: 5}])
+        })
     })
 })
