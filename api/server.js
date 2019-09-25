@@ -15,6 +15,7 @@ server.use(cors());
 server.use('/auth', authRoute)
 server.use('/waterBodies', waterBodyRoute)
 server.use('/logRoute', logRoute);
+server.use('/docs', express.static("./docs"));
 
 server.use('/', (req, res) => {
     res.status(200).json({message: 'server base route is working!'});
