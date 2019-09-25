@@ -356,7 +356,7 @@ router.put("/user-logs/update/:id", logMiddleware.checkWaterBodyId, authMiddlewa
  */
 //#endregion
 
-router.get("/user-logs/waterBody/:id", (req, res) => {
+router.get("/user-logs/waterBody/:id", logMiddleware.checkWaterBodyId2, (req, res) => {
     logDb.getLogsByWaterBodyId(req.params.id)
         .then(result => {
             console.log("result in .then: ", result)

@@ -32,6 +32,21 @@ function checkUserId(req, res, next) {
         })
 }
 
+function checkWaterBodyId2(req, res, next){
+    const waterBodyId = req.params.id;
+    waterBodyDb.getWaterBodyById(waterBodyId) 
+        .then(results => {
+            if (results.length > 0) {
+                next();
+            } else {
+                res.status(404).json({message: `Can't find water body with id of ${waterBodyId}`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: `Missing waterBodyId field`})
+        })
+}
+
 function checkWaterBodyId(req, res, next) {
     const waterBodyId = req.body.waterBodyId;
     waterBodyDb.getWaterBodyById(waterBodyId) 
@@ -100,5 +115,6 @@ module.exports = {
     attachFishId,
     validatePost,
     checkUserId,
-    checkWaterBodyId
+    checkWaterBodyId,
+    checkWaterBodyId2
 }
