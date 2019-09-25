@@ -11,27 +11,27 @@ describe('server.js tests', () => {
         it('should return id number of newly created user', () => {
             return request(server)
             .post('/auth/register') 
-            .send({username: 'mason', password: 'mason'})
+            .send({username: 'mason', password: 'mason', firstName: 'Mason', lastName: 'Karsevar'})
             .then(res => {
                 expect(res.body).toBe(1)
             })
         })
     })
 
-    describe('/auth/login', () => {
-        it('should return a status 200 when given a pre-existing username and password', function() {
-            return request(server)
-                .post('/auth/login')
-                .send({username: 'mason', password: 'mason'})
-                .set("Accept", "application/json")
-                .expect("Content-Type", "application/json; charset=utf-8")
-                .expect(200)
-                .then(res => {
-                    request(server)
-                        .post('/auth/login')
-                        .send({username: 'mason', password: 'mason'})
-                        .expect(200)
-                })
-        })
-    })
+    // describe('/auth/login', () => {
+    //     it('should return a status 200 when given a pre-existing username and password', function() {
+    //         return request(server)
+    //             .post('/auth/login')
+    //             .send({username: 'mason', password: 'mason'})
+    //             .set("Accept", "application/json")
+    //             .expect("Content-Type", "application/json; charset=utf-8")
+    //             .expect(200)
+    //             .then(res => {
+    //                 request(server)
+    //                     .post('/auth/login')
+    //                     .send({username: 'mason', password: 'mason'})
+    //                     .expect(200)
+    //             })
+    //     })
+    // })
 })

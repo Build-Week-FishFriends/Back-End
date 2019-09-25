@@ -27,13 +27,13 @@ router.get('/user-logs', authMiddleware, (req, res) => {
         })
 });
 
-router.get('/user-logs/:id', (req, res) => {
+router.get('/user-logs/:id', logMiddleware.checkUserId, (req, res) => {
     logDb.getLogsByUserId(req.params.id)
         .then(results => {
             if(results.length > 0) {
                 res.status(200).json(results)
             } else {
-                res.status(404).json({message: 'user id does not exist'})
+                res.status(404).json({message: 'user has no logs'})
             }
         })
         .catch(err => {

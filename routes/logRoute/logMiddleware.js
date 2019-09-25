@@ -1,5 +1,22 @@
 const logDb = require('./logModel.js');
+const userDb = require('../authRoute/authModel.js')
 const db = require('../../data/dbConfig.js');
+
+function checkUserId(req, res, next) {
+    const userId = req.params.id;
+    userDb.findUserById(userId) 
+        .then(results => {
+            if (results.length > 0) {
+                next();
+            } else {
+                res.status(404).json({message: `UserId ${userId} can't be found`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: err})
+        })
+    
+}
 
 function validatePost(req, res, next) {
     const logPost = req.body;
@@ -64,5 +81,6 @@ function validateUserId(req, res, next) {
 module.exports = {
     validateUserId,
     attachFishId,
-    validatePost
+    validatePost,
+    checkUserId
 }
