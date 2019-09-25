@@ -47,6 +47,7 @@ function checkWaterBodyId(req, res, next) {
         })
 }
 
+
 function attachFishId(req, res, next) {
     const logPost = req.body;
     console.log(logPost.fishId.toLowerCase())
