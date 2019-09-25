@@ -4,7 +4,7 @@
   "description": "API for FishFriends app",
   "apidoc": {
     "title": "FishFriends API",
-    "url": "https://fish-friends.herokuapp.com/"
+    "url": "https://fish-friends.herokuapp.com/api"
   },
   "main": "index.js",
   "scripts": {
