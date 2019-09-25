@@ -3,8 +3,6 @@ const logDb = require('./logModel.js');
 const authMiddleware = require('../authRoute/authenticate-middleware.js');
 const logMiddleware = require('./logMiddleware.js')
 
-<<<<<<< HEAD
-=======
 
 //#region API DOCS for CREATE NEW USER LOG
 /** @api {post} /logRoute/ Add New Log
@@ -46,7 +44,6 @@ const logMiddleware = require('./logMiddleware.js')
  */
 //#endregion
 
->>>>>>> 56dbba2931262e92e87a2948990cf0a92294a645
 router.post('/', logMiddleware.checkWaterBodyId, logMiddleware.validatePost, authMiddleware, logMiddleware.attachFishId, (req, res) => {
     let log = req.body;
     log.userId = req.user.id;
@@ -127,8 +124,6 @@ router.get('/user-logs', authMiddleware, (req, res) => {
         })
 });
 
-<<<<<<< HEAD
-=======
 
 //#region API DOCS for GET USER LOGS BY USER ID 
 /** 
@@ -191,18 +186,13 @@ router.get('/user-logs', authMiddleware, (req, res) => {
  */
 //#endregion
 
->>>>>>> 56dbba2931262e92e87a2948990cf0a92294a645
 router.get('/user-logs/:id', logMiddleware.checkUserId, (req, res) => {
     logDb.getLogsByUserId(req.params.id)
         .then(results => {
             if(results.length > 0) {
                 res.status(200).json(results)
             } else {
-<<<<<<< HEAD
-                res.status(404).json({message: 'user has no logs'})
-=======
                 res.status(404).json({message: `We couldn't find any logs for this user: ${req.params.id} `})
->>>>>>> 56dbba2931262e92e87a2948990cf0a92294a645
             }
         })
         .catch(err => {
@@ -254,10 +244,6 @@ router.get('/user-logs/update-logs/:id', (req, res) => {
         })
 })
 
-<<<<<<< HEAD
-router.put("/user-logs/update/:id", logMiddleware.checkWaterBodyId, authMiddleware, logMiddleware.validatePost, logMiddleware.validateUserId, logMiddleware.attachFishId, (req, res) => {
-=======
->>>>>>> 56dbba2931262e92e87a2948990cf0a92294a645
 
 //#region API DOCS for UPDATE USER LOG BY LOG ID
 /**

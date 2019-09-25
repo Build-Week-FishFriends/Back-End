@@ -1,6 +1,7 @@
 
 const userDb = require('../authRoute/authModel.js') 
 const waterBodyDb = require("../waterBodyRoute/waterBodyModel.js");
+const logDb = require("./logModel.js");
 
 
 function validatePost(req, res, next) {
