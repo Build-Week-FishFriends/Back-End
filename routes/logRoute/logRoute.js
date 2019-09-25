@@ -3,7 +3,7 @@ logDb = require('./logModel.js');
 authMiddleware = require('../authRoute/authenticate-middleware.js');
 logMiddleware = require('./logMiddleware.js')
 
-router.post('/', logMiddleware.validatePost, authMiddleware, logMiddleware.attachFishId, (req, res) => {
+router.post('/', logMiddleware.checkWaterBodyId, logMiddleware.validatePost, authMiddleware, logMiddleware.attachFishId, (req, res) => {
     let log = req.body;
     log.userId = req.user.id;
     console.log(log)
@@ -69,7 +69,7 @@ router.get('/user-logs/update-logs/:id', (req, res) => {
         })
 })
 
-router.put("/user-logs/update/:id", authMiddleware, logMiddleware.validatePost, logMiddleware.validateUserId, logMiddleware.attachFishId, (req, res) => {
+router.put("/user-logs/update/:id", logMiddleware.checkWaterBodyId, authMiddleware, logMiddleware.validatePost, logMiddleware.validateUserId, logMiddleware.attachFishId, (req, res) => {
 
     logDb.updateLog(req.params.id, req.body)
         .then(result => {

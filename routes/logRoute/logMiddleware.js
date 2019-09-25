@@ -1,6 +1,22 @@
 const logDb = require('./logModel.js');
 const userDb = require('../authRoute/authModel.js')
 const db = require('../../data/dbConfig.js');
+const waterBodyDb = require('../waterBodyRoute/waterBodyModel.js');
+
+function checkWaterBodyId(req, res, next) {
+    const waterBodyId = req.body.waterBodyId;
+    waterBodyDb.getWaterBodyById(waterBodyId) 
+        .then(results => {
+            if (results.length > 0) {
+                next();
+            } else {
+                res.status(404).json({message: `Can't find water body with id of ${waterBodyId}`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error: `Missing waterBodyId field`})
+        })
+}
 
 function checkUserId(req, res, next) {
     const userId = req.params.id;
@@ -82,5 +98,6 @@ module.exports = {
     validateUserId,
     attachFishId,
     validatePost,
-    checkUserId
+    checkUserId,
+    checkWaterBodyId
 }
