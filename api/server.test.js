@@ -1,30 +1,47 @@
-const request = require('supertest');
+const chai = require('chai');
+const chaiHttp = require('chai-http')
 const server = require('./server.js');
-const authRoute = require('../routes/authRoute/authRoute.js');
 const db = require('../data/dbConfig.js');
+const request = require('supertest');
+
+chai.use(chaiHttp)
 
 describe('server.js tests', () => {
     afterAll(async () => {
         await db('users').truncate();
     })
 
+    describe('/waterBodies', () => {
+        it('should return an array of waterBody objects', () => {
+            return request(server)
+                .get('/waterBodies')
+                .expect(200)
+                .then(res => {
+                    expect(res.body).toHaveLength(49)
+                })
+        })
+    })
+
+    describe('/logRoute/all-logs', () => {
+        it('should return an array of all the logs in the database', () => {
+            return request(server) 
+                .get('/logRoute/all-logs')
+                .expect(200)
+                .then(res => {
+                    expect(res.body).toHaveLength(0)
+                })
+        })
+    })
+
     describe('/auth/register route', () => {
         it('should return id number of newly created user', () => {
-            const object = {username: 'alice', password: 'alice', firstName: 'Mason', lastName: 'Karsevar'}
-            return request(authRoute)
-            .post('/auth/register') 
-            .set("Accept", "application/json")
-            .expect("Content-Type", "application/json; charset=utf-8")
-            .send(object)
-            .then(res => {
-                console.log(res)
-                expect(res.body).toBe({ id: 1,
-                    username: 'alice',
-                    password:
-                     '$2a$14$drP785YzyAb35ywtV0tFte1rGPFp5ftWKb.PyHxzvQqF9KNQ7uom6',
-                    firstName: 'Mason',
-                    lastName: 'Karsevar',
-                    email: null })
+            const object = {username: 'cotton', password: 'cotton', firstName: 'Mason', lastName: 'Karsevar'}
+            return request(server)
+                .post('/auth/register') 
+                .send(object)
+                .set("Accept", "application/json")
+                .expect(200)
+                
             })
         })
     })
@@ -33,16 +50,15 @@ describe('server.js tests', () => {
         it('should return a status 200 when given a pre-existing username and password', function() {
             return request(server)
                 .post('/auth/login')
-                .send({username: 'alice', password: 'alice'})
+                .send({username: 'cotton', password: 'cotton'})
                 .set("Accept", "application/json")
                 .expect("Content-Type", "application/json; charset=utf-8")
                 .expect(200)
-                // .then(res => {
-                //     request(server)
-                //         .post('/auth/login')
-                //         .send({username: 'mason', password: 'mason'})
-                //         .expect(200)
-                // })
+                .then(res => {
+                    request(server)
+                        .post('/auth/login')
+                        .send({username: 'mason', password: 'mason'})
+                        .expect(200)
+                })
         })
     })
-})
