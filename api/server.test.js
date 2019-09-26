@@ -33,6 +33,22 @@ describe('server.js tests', () => {
         })
     })
 
+    describe('/logRoute/user-logs', () => {
+        it('should return a 401 when not given a token', () => {
+            return request(server) 
+                .get('/logRoute/user-logs')
+                .expect(401)
+        })
+    })
+
+    describe('/logRoute/user-logs/delete-logs', () => {
+        it('should return a 401 when not given a token', () => {
+            return request(server) 
+                .delete('/logRoute/user-logs/delete-logs/1')
+                .expect(401)
+        })
+    })
+
     describe('/auth/register route', () => {
         it('should return id number of newly created user', () => {
             const object = {username: 'cotton', password: 'cotton', firstName: 'Mason', lastName: 'Karsevar'}
